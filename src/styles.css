@@ -1,0 +1,19 @@
+@layer tailwind-base, primeng, tailwind-utilities;
+
+@import "primeicons/primeicons.css";
+@import "primeng/resources/themes/aura-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+@layer tailwind-base {
+  @tailwind base;
+
+  html {
+    font-family: Roboto, system-ui, sans-serif !important;
+  }
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
