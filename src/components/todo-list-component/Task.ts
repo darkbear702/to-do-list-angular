@@ -1,4 +1,6 @@
 export interface Task{
-    description: string,
-    done: boolean
+    "userID": number,
+    "id": number,
+    "title": string,
+    "completed": boolean
 }

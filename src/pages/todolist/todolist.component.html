@@ -10,14 +10,15 @@
         <label
             class=" w-3/12 mt-10  text-1xl/9 font-bold tracking-tight text-gray-900" 
             for="newActivity">Enter your plan here:  </label>
-        <input #description
+        <input 
+            [value]="newTaskTitle()"
+            (input)="handleInput($event)"
             class="w-6/12 m-2 p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
-            (keyup.enter)="addTask(description.value); description.value = ''"
             id="newActivity" type="text" placeholder="Add a task"
             >
         <button 
         class="w-3/12"
-            (click)="addTask(description.value)"
+            (click)="addNewTask()"
             class=" border-1 border-green-400 bg-green-400 text-white p-2 rounded">
             Add to the list
         </button>
@@ -34,12 +35,12 @@
             Unfinished
         </button>
     </div>
-    <h2 class="text-1xl/9 font-bold tracking-tight text-gray-900" *ngIf="(filter === 'all')||(filter ==='done')">Finished tasks: {{finishedTasks}}</h2>
-    <h2 class="text-1xl/9 font-bold tracking-tight text-gray-900" *ngIf="(filter === 'all')||(filter ==='undone')">Unfinished tasks: {{unfinishedTasks}}</h2>
+    <h2 class="text-1xl/9 font-bold tracking-tight text-gray-900" *ngIf="(filter === 'all')||(filter ==='done')">Completed tasks: {{completedTasks}}</h2>
+    <h2 class="text-1xl/9 font-bold tracking-tight text-gray-900" *ngIf="(filter === 'all')||(filter ==='undone')">Incompleted tasks: {{incompletedTasks}}</h2>
     <div class="text-left">
         <ul>
-            <li *ngFor="let task of tasks">
-                <tickTaskComponent (remove)="remove(task)" [task]="task"></tickTaskComponent>
+            <li *ngFor="let task of allTasks()">
+                <tickTaskComponent [task]="task" [allTasks]="allTasks" [filter]="filter"> </tickTaskComponent>
             </li>
         </ul>
     </div>

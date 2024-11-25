@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, WritableSignal } from "@angular/core";
 import { Task } from "./Task";
-
+import { signal } from "@angular/core";
 @Component({
     standalone:true,
     templateUrl:"./tickTask.component.html",
@@ -11,11 +11,17 @@ import { Task } from "./Task";
 export class TickTaskComponent{
     editable=false;
     @Input() task!:Task;
-    @Output() remove= new EventEmitter<Task>();
-    saveTask(description:string){
-        if(!description)
+    @Input() allTasks!:WritableSignal<Task[]>;
+    @Input() filter!:string;
+    saveTask(title:string){
+        if(!title)
             return;
         this.editable= false;
-        this.task.description = description;
+        this.task.title = title;
+        console.log(this.allTasks());
+    }
+    deleteTask(id:number){
+        const updatedTask = this.allTasks().filter((task:Task)=> task.id!=id);
+        this.allTasks.set(updatedTask);
     }
 }
