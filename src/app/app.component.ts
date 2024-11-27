@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'k-root',
   standalone: true,
   imports: [
-    RouterOutlet,
+    RouterOutlet
   ],
   templateUrl: './app.component.html',
 })

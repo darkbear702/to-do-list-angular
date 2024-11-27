@@ -18,7 +18,7 @@ export const routes: Routes = [
         path: '',
         redirectTo: '/todolist',
         pathMatch: 'full',
-        data: { preload: true },
+        data: { preload: false },
       },
     ],
   },
@@ -28,7 +28,11 @@ export const routes: Routes = [
   },
   {
     path:'todolist',
-    loadComponent: () => import('../pages/todolist/todolist.component').then(c => c.ToDoListComponent),
+    loadComponent: () => import('../pages/todolist/todolistlogin.component').then(c => c.TodolistLoginComponent),
+  },
+  {
+    path:'todolist/:id',
+    loadComponent: ()=> import('../pages/todolist/todolist.component').then(c=>c.ToDoListComponent),
   },
   {
     path: '**',

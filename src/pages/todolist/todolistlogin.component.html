@@ -1,0 +1,27 @@
+<div class=" w-auto  text-center ">
+    <div class=" w-5/12 mx-auto">
+        <h1 class="mt-10 text-center text-3xl/9 font-bold tracking-tight text-green-500">
+            To-do List
+        </h1>
+        <h2 class=" mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+            What user are you?
+        </h2>
+        <div>
+            <label
+                class=" w-3/12 mt-10  text-1xl/9 font-bold tracking-tight text-gray-900" 
+                for="newActivity">Enter your user id here:  </label>
+            <input 
+                (input)="handleInput($event)"
+                [value]="userId()"
+                class="w-6/12 m-2 p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                id="newActivity" type="text" placeholder="Enter your user id"
+                >
+            <button 
+                (click)="navigate()"
+                class="border-1 border-green-400 bg-green-400 text-white p-2 rounded p-button-success">
+                Enter
+            </button>
+            
+    </div>
+    
+</div>

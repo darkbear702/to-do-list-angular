@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withPreloading } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withPreloading } from '@angular/router';
 import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 
@@ -10,7 +10,7 @@ import { PreloadStrategy } from '../services/preload-strategy.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withPreloading(PreloadStrategy)),
+    provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(),
     provideTranslateService({
       defaultLanguage: 'vi',

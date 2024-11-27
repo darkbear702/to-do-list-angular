@@ -7,17 +7,28 @@ export class TaskService{
     private allTasks=signal<Task[]>([]);
     private httpService = new HttpService();
     private filter=signal<string>('all');
+    private userId= signal<number>(1);
     constructor() {
 
     }
     async getAllTasks(){
         try{
-            const dataFetched:any = (await this.httpService.get("https://jsonplaceholder.typicode.com/todos?userId=1")).data;
+            const dataFetched:any = (await this.httpService.get(`https://jsonplaceholder.typicode.com/todos?userId=${this.userId()}`)).data;
             await this.allTasks.set(dataFetched);
         }catch(error){
             console.error(error);
         }
         return this.allTasks;
+    }
+    setUserId(id:any){
+        try{
+            this.userId.set(id);
+        }catch(e){
+            console.error(e);
+        }
+    }
+    getUserId(){
+        return this.userId;
     }
     getFilter(){
         return this.filter;
@@ -31,7 +42,7 @@ export class TaskService{
         }
         this.allTasks.set([newTask,...this.allTasks()]);
         try{
-            this.httpService.patch("https://jsonplaceholder.typicode.com/todos?userId=1",newTask,{
+            this.httpService.patch(`https://jsonplaceholder.typicode.com/todos?userId=${this.userId()}`,newTask,{
                 headers: {
                   'Content-type': 'application/json; charset=UTF-8',
                 }
@@ -44,7 +55,7 @@ export class TaskService{
         const updatedTask = this.allTasks().filter((task:Task)=> task.id!=id);
         this.allTasks.set(updatedTask);
         try{
-            this.httpService.delete(`https://jsonplaceholder.typicode.com/todos?id=${id}`);
+            this.httpService.delete(`https://jsonplaceholder.typicode.com/todos?id=${this.userId()}`);
         }catch(err){
             console.error(err);
         }

@@ -22,6 +22,7 @@
     "@ngx-translate/core": "^16.0.3",
     "@ngx-translate/http-loader": "^16.0.0",
     "axios": "^1.7.7",
+    "dltm-admin": "file:",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.11",
     "rxjs": "~7.8.0",

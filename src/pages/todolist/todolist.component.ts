@@ -5,6 +5,13 @@ import { HttpService } from "../../services/http.service";
 import { TickTaskComponent } from "../../components/todo-list-component/tickTask.component";
 import { OnInit } from "@angular/core";
 import { TaskService } from "../../services/todo-services/task-logic.service";
+import { Input } from "@angular/core";
+// import {ReactiveFormsModule} from '@angular/forms';
+// import { ConfirmDialogModule } from 'primeng/confirmdialog';
+// import { ToastModule } from 'primeng/toast';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { FormsModule } from '@angular/forms';
+// import { BrowserModule } from "@angular/platform-browser";
 @Component({
     selector:"todolist",
     standalone:true,
@@ -13,7 +20,6 @@ import { TaskService } from "../../services/todo-services/task-logic.service";
 })
 
 export class ToDoListComponent implements OnInit{
-    
     taskService= new TaskService();
     httpService = new HttpService();
     filter!:WritableSignal<string>;
@@ -22,9 +28,13 @@ export class ToDoListComponent implements OnInit{
     newTaskTitle = signal<string>('');
     completedTasks= 0;
     incompletedTasks=0;
+    @Input() id='';
     async ngOnInit() {
-       this.allTasks = await this.taskService.getAllTasks();
-       this.filter= await this.taskService.getFilter();
+        if(this.id){
+            await this.taskService.setUserId(Number(this.id));
+            this.allTasks = await this.taskService.getAllTasks();
+            this.filter= await this.taskService.getFilter();
+        }
     }
     handleInput(event:Event){
         const input = event?.target as HTMLInputElement;
@@ -40,5 +50,10 @@ export class ToDoListComponent implements OnInit{
         }
     }
 
-   
+//    confirm1(event:any){
+
+//    }
+//    confirm2(event:any){
+
+//    }
 }
