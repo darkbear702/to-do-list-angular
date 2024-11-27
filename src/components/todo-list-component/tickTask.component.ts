@@ -1,34 +1,33 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, Output, EventEmitter, WritableSignal } from "@angular/core";
+import { Component, Input, WritableSignal, OnInit } from "@angular/core";
 import { Task } from "./Task";
-import { signal } from "@angular/core";
-import { HttpService } from "../../services/http.service";
+import { TaskService } from "../../services/todo-services/task-logic.service";
+
+
 @Component({
     standalone:true,
     templateUrl:"./tickTask.component.html",
     selector: "tickTaskComponent",
     imports:[CommonModule]
 })
-export class TickTaskComponent{
-    editable=false;
-    httpService=new HttpService();
+export class TickTaskComponent implements OnInit{
+
     @Input() task!:Task;
-    @Input() allTasks!:WritableSignal<Task[]>;
-    @Input() filter!:string;
-    saveTask(title:string){
-        if(!title)
-            return;
-        this.editable= false;
-        this.task.title = title;
-        console.log(this.allTasks());
+    @Input() taskService!:TaskService;
+    editable=false;
+    filter!:WritableSignal<string>;
+    async ngOnInit() {
+        this.filter= await this.taskService.getFilter();
+    }
+    
+    saveTask(title:string, task:Task){
+        if(this.taskService.saveTask(title,task))
+            this.editable= false;
+        
+ 
     }
     deleteTask(id:number){
-        const updatedTask = this.allTasks().filter((task:Task)=> task.id!=id);
-        this.allTasks.set(updatedTask);
-        try{
-            this.httpService.delete(`https://jsonplaceholder.typicode.com/todos?id=${id}`);
-        }catch(err){
-            console.error(err);
-        }
+        this.taskService.deleteTask(id);
     }
+    
 }

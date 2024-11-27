@@ -1,4 +1,5 @@
-<div *ngIf="filter=='all'||(filter=='done'&&task.completed==true)||(filter=='undone'&&task.completed==false)" class=" border-t-2 m-2 pl2 pr-2 pt-4">
+
+<div *ngIf="filter()=='all'||(filter()=='done'&&task.completed==true)||(filter()=='undone'&&task.completed==false)" class=" border-t-2 m-2 pl-2 pr-2 pt-4">
   <input 
       class="w-4 h-4"
       type="checkbox"
@@ -9,20 +10,20 @@
   <label class="antialiased ml-3 text-2xl font-semibold tracking-tight text-gray-700" for="{{task.title}}">{{task.title}}</label>
 
   <div class=" text-right" *ngIf="!editable">
-      <button class="pl-2 pr-2 pt-1 pb-1 m-2 border-1 border-gray-400 bg-gray-400 text-white rounded" (click)="editable = !editable">Edit</button>
-      <button class=" pl-2 pr-2 pt-1 pb-1 m-2 border-1 border-red-400 bg-red-400 text-white rounded" (click)="deleteTask(task.id)">Delete</button>
-  </div>
+      <button class="pl-2 pr-2 pt-1 pb-1 ml-2 mr-2 mt-2 mb-1 border-1 border-gray-400 bg-gray-400 text-white rounded" (click)="editable = !editable">Edit</button>
+     <button class=" pl-2 pr-2 pt-1 pb-1 ml-2 mr-2 mt-2 mb-1 border-1 border-red-400 bg-red-400 text-white rounded" (click)="deleteTask(task.id)" >Delete</button>
+    </div>
   <div *ngIf="editable">
       <input
         class=" w-full m-2 p-2 rounded-md border-0 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
         placeholder="edit item"
         [value]="task.title"
         #editedTask
-        (keyup.enter)="saveTask(editedTask.value)" />
+        (keyup.enter)="saveTask(editedTask.value,task)" />
   
       <div class="  text-right">
-        <button class=" m-2 border-1 border-gray-400 bg-gray-400 text-white pl-2 pr-2 pt-1 rounded" (click)="editable = !editable">Cancel</button>
-        <button class=" m-2 border-1 border-green-400 bg-green-400 text-white pl-2 pr-2 pt-1 rounded" (click)="saveTask(editedTask.value)">
+        <button class="mt-2 ml-2 mr-2 mb-1 border-1 border-gray-400 bg-gray-400 text-white pl-2 pr-2 pt-1 pb-1 rounded" (click)="editable = !editable">Cancel</button>
+        <button class="mt-2 ml-2 mr-2 mb-1 border-1 border-green-400 bg-green-400 text-white pl-2 pr-2 pb-1 pt-1 rounded" (click)="saveTask(editedTask.value, task)">
           Save
         </button>
       </div>

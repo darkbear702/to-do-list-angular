@@ -1,4 +1,6 @@
+
 <div class=" w-auto  text-center ">
+    
     <div class=" w-5/12 mx-auto">
     <h1 class="mt-10 text-center text-3xl/9 font-bold tracking-tight text-green-500">
         To-do List
@@ -17,30 +19,29 @@
             id="newActivity" type="text" placeholder="Add a task"
             >
         <button 
-        class="w-3/12"
             (click)="addNewTask()"
-            class=" border-1 border-green-400 bg-green-400 text-white p-2 rounded">
+            class="border-1 border-green-400 bg-green-400 text-white p-2 rounded p-button-success">
             Add to the list
         </button>
     </div>
     <div class="m-2">
         <p class="inline-block text-1xl/9 font-bold tracking-tight text-gray-900 mr-2">Filter: </p>
         <button class=" pr-4 border-r-2 text-1xl/9 font-bold tracking-tight text-gray-900 "
-         (click)="filter='all'">
+         (click)="filter.set('all')">
              All
         </button>
         <button class=" ml-2 pr-4 border-r-2 pl-2 text-1xl/9 font-bold tracking-tight text-gray-900 " 
-        (click)="filter='done'">Done</button>
-        <button class=" ml-3 text-1xl/9 font-bold tracking-tight text-gray-900 " (click)="filter='undone'">
+        (click)="filter.set('done')">Done</button>
+        <button class=" ml-3 text-1xl/9 font-bold tracking-tight text-gray-900 " (click)="filter.set('undone')">
             Unfinished
         </button>
     </div>
-    <h2 class="text-1xl/9 font-bold tracking-tight text-gray-900" *ngIf="(filter === 'all')||(filter ==='done')">Completed tasks: {{completedTasks}}</h2>
-    <h2 class="text-1xl/9 font-bold tracking-tight text-gray-900" *ngIf="(filter === 'all')||(filter ==='undone')">Incompleted tasks: {{incompletedTasks}}</h2>
+    <h2 class="text-1xl/9 font-bold tracking-tight text-gray-900" *ngIf="(filter() == 'all')||(filter() =='done')">Completed tasks: {{completedTasks}}</h2>
+    <h2 class="text-1xl/9 font-bold tracking-tight text-gray-900" *ngIf="(filter() == 'all')||(filter() =='undone')">Incompleted tasks: {{incompletedTasks}}</h2>
     <div class="text-left">
         <ul>
             <li *ngFor="let task of allTasks()">
-                <tickTaskComponent [task]="task" [allTasks]="allTasks" [filter]="filter"> </tickTaskComponent>
+                <tickTaskComponent [task]="task" [taskService]="taskService"> </tickTaskComponent>
             </li>
         </ul>
     </div>

@@ -1,32 +1,30 @@
-import { Component, signal } from "@angular/core";
+import { Component, signal, WritableSignal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Task } from "../../components/todo-list-component/Task";
 import { HttpService } from "../../services/http.service";
-import { NgFor } from "@angular/common";
 import { TickTaskComponent } from "../../components/todo-list-component/tickTask.component";
 import { OnInit } from "@angular/core";
+import { TaskService } from "../../services/todo-services/task-logic.service";
 @Component({
     selector:"todolist",
     standalone:true,
-    imports: [CommonModule, NgFor, TickTaskComponent],
+    imports: [CommonModule,TickTaskComponent],
     templateUrl:"./todolist.component.html"
 })
 
 export class ToDoListComponent implements OnInit{
+    
+    taskService= new TaskService();
     httpService = new HttpService();
-    filter="all";
+    filter!:WritableSignal<string>;
     task!:Task;
-    allTasks = signal<Task[]>([]);
+    allTasks!:WritableSignal<Task[]>;
     newTaskTitle = signal<string>('');
     completedTasks= 0;
     incompletedTasks=0;
     async ngOnInit() {
-        try{
-            const dataFetched:any = (await this.httpService.get("https://jsonplaceholder.typicode.com/todos?userId=1")).data;
-            await this.allTasks.set(dataFetched);
-        }catch(error){
-            console.error(error);
-        }
+       this.allTasks = await this.taskService.getAllTasks();
+       this.filter= await this.taskService.getFilter();
     }
     handleInput(event:Event){
         const input = event?.target as HTMLInputElement;
@@ -35,23 +33,10 @@ export class ToDoListComponent implements OnInit{
 
     addNewTask(){
         if(this.newTaskTitle().trim().length){
-            const newTask:Task={
-                userId:1,
-                id: Date.now(),
-                title:this.newTaskTitle(),
-                completed:false
-            }
-            this.allTasks.set([newTask,...this.allTasks()]);
+            this.taskService.addNewTask(this.newTaskTitle);
             this.newTaskTitle.set("");
-            try{
-                this.httpService.patch("https://jsonplaceholder.typicode.com/todos?userId=1",newTask,{
-                    headers: {
-                      'Content-type': 'application/json; charset=UTF-8',
-                    }
-                });
-            }catch(error){
-                console.error(error);
-            }
+        }else{
+           
         }
     }
 
